@@ -13,6 +13,7 @@ SortieSon dcw 0
 Iterateur dcd 0
 	export CallbackSon
 	export SortieSon
+	export Iterateur
 ; ===============================================================================================
 	
 
@@ -26,9 +27,8 @@ CallbackSon proc
 	ldr R0,=Son
 	ldr R3,=Iterateur
 	ldr R3,[R3]
-	ldr R1,=5512
-	ldr R1,[R1]
-	cmp R3,R1
+	mov R1,#0x2B10
+	cmp R1,R3
 	beq fin
 	ldrsh R0,[R0,R3]
 	ldr R2,=SortieSon

@@ -5,7 +5,6 @@
 
 
 		 export LongueurSon 
-		 export PeriodeSonMicroSec
 		 export Son
 		 
 LongueurSon	 DCD 5512 

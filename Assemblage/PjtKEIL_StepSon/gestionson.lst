@@ -23,41 +23,41 @@ ARM Macro Assembler    Page 1
                                dcd              0
    14 00000008                 export           CallbackSon
    15 00000008                 export           SortieSon
-   16 00000008         ; ======================================================
+   16 00000008                 export           Iterateur
+   17 00000008         ; ======================================================
                        =========================================
-   17 00000008         
    18 00000008         
    19 00000008         
    20 00000008         
-   21 00000008         ;Section ROM code (read only) :  
-   22 00000008                 area             moncode,code,readonly
-   23 00000000         ; écrire le code ici
-   24 00000000         
-   25 00000000         CallbackSon
+   21 00000008         
+   22 00000008         ;Section ROM code (read only) :  
+   23 00000008                 area             moncode,code,readonly
+   24 00000000         ; écrire le code ici
+   25 00000000         
+   26 00000000         CallbackSon
                                proc
-   26 00000000 480B            ldr              R0,=Son
-   27 00000002 4B0C            ldr              R3,=Iterateur
-   28 00000004 681B            ldr              R3,[R3]
-   29 00000006 F241 5188       ldr              R1,=5512
-   30 0000000A 6809            ldr              R1,[R1]
-   31 0000000C 428B            cmp              R3,R1
-   32 0000000E D00D            beq              fin
-   33 00000010 5EC0            ldrsh            R0,[R0,R3]
-   34 00000012 4A09            ldr              R2,=SortieSon
-   35 00000014 F500 4000       add              R0,#32768
-   36 00000018 F04F 015B       mov              R1,#91
-   37 0000001C FB90 F0F1       sdiv             R0,R0,R1
-   38 00000020 6010            str              R0,[R2]
-   39 00000022         
-   40 00000022 4B04            ldr              R3,=Iterateur
-   41 00000024 6819            ldr              R1,[R3]
-   42 00000026 F101 0102       add              R1,#2
-   43 0000002A 6019            str              R1,[R3]
-   44 0000002C         fin
-   45 0000002C 4770            bx               lr
-   46 0000002E                 endp
-   47 0000002E                 END
-              00 00 00000000 
+   27 00000000 480A            ldr              R0,=Son
+   28 00000002 4B0B            ldr              R3,=Iterateur
+   29 00000004 681B            ldr              R3,[R3]
+   30 00000006 F642 3110       mov              R1,#0x2B10
+   31 0000000A 4299            cmp              R1,R3
+   32 0000000C D00D            beq              fin
+   33 0000000E 5EC0            ldrsh            R0,[R0,R3]
+   34 00000010 4A08            ldr              R2,=SortieSon
+   35 00000012 F500 4000       add              R0,#32768
+   36 00000016 F04F 015B       mov              R1,#91
+   37 0000001A FB90 F0F1       sdiv             R0,R0,R1
+   38 0000001E 6010            str              R0,[R2]
+   39 00000020         
+   40 00000020 4B03            ldr              R3,=Iterateur
+   41 00000022 6819            ldr              R1,[R3]
+   42 00000024 F101 0102       add              R1,#2
+   43 00000028 6019            str              R1,[R3]
+   44 0000002A         fin
+   45 0000002A 4770            bx               lr
+   46 0000002C                 endp
+   47 0000002C                 END
+              00000000 
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
@@ -100,7 +100,8 @@ Symbol: Iterateur
    Definitions
       At line 13 in file Src\GestionSon.s
    Uses
-      At line 27 in file Src\GestionSon.s
+      At line 16 in file Src\GestionSon.s
+      At line 28 in file Src\GestionSon.s
       At line 40 in file Src\GestionSon.s
 
 SortieSon 00000000
@@ -131,11 +132,11 @@ CallbackSon 00000000
 
 Symbol: CallbackSon
    Definitions
-      At line 25 in file Src\GestionSon.s
+      At line 26 in file Src\GestionSon.s
    Uses
       At line 14 in file Src\GestionSon.s
 Comment: CallbackSon used once
-fin 0000002C
+fin 0000002A
 
 Symbol: fin
    Definitions
@@ -147,7 +148,7 @@ moncode 00000000
 
 Symbol: moncode
    Definitions
-      At line 22 in file Src\GestionSon.s
+      At line 23 in file Src\GestionSon.s
    Uses
       None
 Comment: moncode unused
@@ -164,7 +165,7 @@ Symbol: Son
    Definitions
       At line 4 in file Src\GestionSon.s
    Uses
-      At line 26 in file Src\GestionSon.s
+      At line 27 in file Src\GestionSon.s
 Comment: Son used once
 1 symbol
 345 symbols in table
