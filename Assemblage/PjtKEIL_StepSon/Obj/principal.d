@@ -1,4 +1,5 @@
 .\obj\principal.o: Src\principal.c
+.\obj\principal.o: Src\GestionSon.h
 .\obj\principal.o: .\Driver\DriverJeuLaser.h
 .\obj\principal.o: C:\Programdata\Keil\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\stm32f10x.h
 .\obj\principal.o: .\RTE\_CibleSondeKEIL\RTE_Components.h
