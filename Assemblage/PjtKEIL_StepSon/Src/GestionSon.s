@@ -6,6 +6,7 @@
 ;Section RAM (read only) :
 	area    mesdata,data,readonly
 	include Driver/DriverJeuLaser.inc
+	import LongueurSon
 
 ;Section RAM (read write):
 	area    maram,data,readwrite
@@ -27,11 +28,12 @@ CallbackSon proc
 	push {lr,R4-R11}
 	ldr R0,=Son
 	ldr R3,=Iterateur
-	ldr R3,[R3]
-	mov R1,#0x2B10
-	cmp R1,R3
+	ldr R3,[R3] ; R3 fait office de Iterateur
+	ldr R1,=LongueurSon ;Longueur du son
+	ldr R1,[R1]
+	cmp R1,R3 ;on regarde si on a atteint la longueur du son
 	beq fin
-	ldrsh R0,[R0,R3]
+	ldrsh R0,[R0,R3,lsl#1]
 	ldr R2,=SortieSon
 	add R0,#32768
 	mov R1,#91
@@ -42,13 +44,15 @@ CallbackSon proc
 	str R0,[R2]
 	
 	ldr R3,=Iterateur
-	ldr R1,[R3]
-	add R1,#2
-	str R1,[R3]
+	str R3,[R3,#1]
+	;ldr R1,[R3]
+	;add R1,#1
+	;str R1,[R3]
 fin 
 	ldr R3,=Iterateur
 	ldr R3,[R3]
-	mov R1,#0x2B10
+	ldr R1,=LongueurSon
+	ldr R1,[R1]
 	cmp R1,R3
 	bne fin2
 	mov R0,#0

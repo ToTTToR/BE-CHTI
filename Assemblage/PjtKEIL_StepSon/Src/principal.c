@@ -4,6 +4,11 @@
 
 void CallbackSon(void);
 
+
+void StartSon(){
+	Iterateur = 0;
+}
+
 int main(void)
 {
 
