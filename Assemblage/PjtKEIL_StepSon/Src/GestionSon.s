@@ -43,7 +43,7 @@ CallbackSon proc
 	ldr R2,=SortieSon
 	strh R0,[R2]
 	
-	ldr R3,=Iterateur
+	ldr R3,=Iterateur ;on incrémente l'itérateur de 1
 	ldr R1,[R3]
 	add R1,#1
 	str R1,[R3]
