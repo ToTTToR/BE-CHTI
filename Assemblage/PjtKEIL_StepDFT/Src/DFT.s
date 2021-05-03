@@ -1,6 +1,7 @@
 	PRESERVE8
 	THUMB   
-		
+	
+	import LeSignal
 
 ; ====================== zone de réservation de données,  ======================================
 ;Section RAM (read only) :
@@ -9,8 +10,8 @@
 
 ;Section RAM (read write):
 	area    maram,data,readwrite
-		
-
+Iterateur dcd 0		
+Reel dcd 0
 	
 ; ===============================================================================================
 	
@@ -20,8 +21,24 @@
 ;Section ROM code (read only) :		
 	area    moncode,code,readonly
 ; écrire le code ici		
-
-
+	
+	DFT_ModuleAuCarre proc
+	push {lr,R4-R11}
+	;R0 correspond au tableau du signal, R1 correspond à k et R2 au tableau de soit cos ou sin
+boucle	ldrsh R0,[R0,R3,lsl #1] ;Valeur du signal 
+	ldrsh R1,[R1,R3,lsl #1] ;Valeur de cos/sin
+	mul R0,R1
+	ldr R3,=Iterateur
+	ldr R3,[R3]
+	cmp R3,R2 
+	bne boucle
+	
+fin 
+	pop {lr,R4-R11}
+	bx lr
+	endp
+		
+	
 
 
 
@@ -159,6 +176,7 @@ TabSin
 	DCW	-9512	; 61 0xdad8 -0.29028
 	DCW	-6393	; 62 0xe707 -0.19510
 	DCW	-3212	; 63 0xf374 -0.09802
+
 
 
 		
