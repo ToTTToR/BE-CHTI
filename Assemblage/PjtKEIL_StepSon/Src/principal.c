@@ -31,8 +31,8 @@ GPIO_Configure(GPIOB, 0, OUTPUT, ALT_PPULL);
 	
 while	(1)
 	{
-		for(int i=0;i<1000000;i++){}
-		StartSon();
+		//for(int i=0;i<1000000;i++){}
+		//StartSon();
 	}
 }
 

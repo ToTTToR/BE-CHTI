@@ -107,11 +107,11 @@ ARM Macro Assembler    Page 2
    27 00000000         CallbackSon
                                proc
    28 00000000 E92D 4FF0       push             {lr,R4-R11}
-   29 00000004 4813            ldr              R0,=Son
-   30 00000006 4B14            ldr              R3,=Iterateur
+   29 00000004 480E            ldr              R0,=Son
+   30 00000006 4B0F            ldr              R3,=Iterateur
    31 00000008 681B            ldr              R3,[R3]     ; R3 fait office de
                                                              Iterateur
-   32 0000000A 4914            ldr              R1,=LongueurSon 
+   32 0000000A 490F            ldr              R1,=LongueurSon 
                                                             ;Longueur du son
    33 0000000C 6809            ldr              R1,[R1]
    34 0000000E 4299            cmp              R1,R3       ;on regarde si on a
@@ -119,14 +119,14 @@ ARM Macro Assembler    Page 2
                                                             r du son
    35 00000010 D012            beq              fin
    36 00000012 F930 0013       ldrsh            R0,[R0,R3,lsl#1]
-   37 00000016 4A12            ldr              R2,=SortieSon
-   38 00000018 F500 4000       add              R0,#32768
-   39 0000001C F04F 015B       mov              R1,#91
-   40 00000020 FB90 F0F1       sdiv             R0,R0,R1
-   41 00000024 B401            push{r0}
-   42 00000026 F7FF FFFE       bl               PWM_Set_Value_TIM3_Ch3
-   43 0000002A BC01            pop{r0}
-   44 0000002C 6010            str              R0,[R2]
+   37 00000016 F500 4000       add              R0,#32768
+   38 0000001A F04F 015B       mov              R1,#91
+   39 0000001E FB90 F0F1       sdiv             R0,R0,R1
+   40 00000022 B401            push{r0}
+   41 00000024 F7FF FFFE       bl               PWM_Set_Value_TIM3_Ch3
+   42 00000028 BC01            pop{r0}
+   43 0000002A 4A08            ldr              R2,=SortieSon
+   44 0000002C 8010            strh             R0,[R2]
    45 0000002E         
 
 
@@ -134,34 +134,26 @@ ARM Macro Assembler    Page 2
 ARM Macro Assembler    Page 3 
 
 
-   46 0000002E 4B0A            ldr              R3,=Iterateur
+   46 0000002E 4B05            ldr              R3,=Iterateur
    47 00000030 6819            ldr              R1,[R3]
-   48 00000032 F101 0102       add              R1,#2
+   48 00000032 F101 0101       add              R1,#1
    49 00000036 6019            str              R1,[R3]
    50 00000038         fin
-   51 00000038 4B07            ldr              R3,=Iterateur
-   52 0000003A 681B            ldr              R3,[R3]
-   53 0000003C F642 3110       mov              R1,#0x2B10
-   54 00000040 4299            cmp              R1,R3
-   55 00000042 D103            bne              fin2
-   56 00000044 F04F 0000       mov              R0,#0
-   57 00000048 F7FF FFFE       bl               PWM_Set_Value_TIM3_Ch3
-   58 0000004C         fin2
-   59 0000004C E8BD 4FF0       pop              {lr,R4-R11}
-   60 00000050 4770            bx               lr
-   61 00000052                 endp
-   62 00000052                 END
+   51 00000038 E8BD 4FF0       pop              {lr,R4-R11}
+   52 0000003C 4770            bx               lr
+   53 0000003E                 endp
+   54 0000003E                 END
               00 00 00000000 
               00000000 
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\obj\gestionson.d -o.\obj\gestionson.o -I.\RTE\_CibleSondeKEIL -I
-C:\Programdata\Keil\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include -IC:\Programda
-ta\Keil\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include --predefine="__EVAL S
-ETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 530"
- --predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --predefine="_RTE
-_ SETA 1" --list=gestionson.lst Src\GestionSon.s
+ork --depend=.\obj\gestionson.d -o.\obj\gestionson.o -I.\RTE\_Simu -IC:\Program
+data\Keil\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include -IC:\Programdata\Keil\Ar
+m\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include --predefine="__EVAL SETA 1" --p
+redefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 530" --predefi
+ne="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --predefine="_RTE_ SETA 1" 
+--list=gestionson.lst Src\GestionSon.s
 
 
 
@@ -192,7 +184,6 @@ Symbol: Iterateur
       At line 17 in file Src\GestionSon.s
       At line 30 in file Src\GestionSon.s
       At line 46 in file Src\GestionSon.s
-      At line 51 in file Src\GestionSon.s
 
 SortieSon 00000000
 
@@ -201,7 +192,7 @@ Symbol: SortieSon
       At line 13 in file Src\GestionSon.s
    Uses
       At line 16 in file Src\GestionSon.s
-      At line 37 in file Src\GestionSon.s
+      At line 43 in file Src\GestionSon.s
 
 maram 00000000
 
@@ -234,14 +225,6 @@ Symbol: fin
    Uses
       At line 35 in file Src\GestionSon.s
 Comment: fin used once
-fin2 0000004C
-
-Symbol: fin2
-   Definitions
-      At line 58 in file Src\GestionSon.s
-   Uses
-      At line 55 in file Src\GestionSon.s
-Comment: fin2 used once
 moncode 00000000
 
 Symbol: moncode
@@ -250,7 +233,7 @@ Symbol: moncode
    Uses
       None
 Comment: moncode unused
-4 symbols
+3 symbols
 
 
 
@@ -325,9 +308,8 @@ External symbols
    Definitions
       At line 18 in file Driver\DriverJeuLaser.inc
    Uses
-      At line 42 in file Src\GestionSon.s
-      At line 57 in file Src\GestionSon.s
-
+      At line 41 in file Src\GestionSon.s
+Comment: PWM_Set_Value_TIM3_Ch3 used once
 Son 00000000
 
 Symbol: Son
@@ -337,4 +319,4 @@ Symbol: Son
       At line 29 in file Src\GestionSon.s
 Comment: Son used once
 9 symbols
-354 symbols in table
+353 symbols in table
