@@ -10,7 +10,10 @@
 ;Section RAM (read write):
 	area    maram,data,readwrite
 Iterateur dcd 0		
-module dcd 0
+reel dcd 0
+imaginaire dcd 0
+Viktor dcd 64
+
 	export DFT_ModuleAuCarre
 ; ===============================================================================================
 	
@@ -24,41 +27,79 @@ module dcd 0
 DFT_ModuleAuCarre proc ;R0 vaut l'adresse de notre signal, R1 la valeur de k 
 	push {lr,R4-R11}
 	ldr R2,=TabCos
+	
 	push {lr,R0-R3}
-	bl Calcul
+	bl CalculCos
 	pop {lr,R0-R3}
+	
 	ldr R2,=TabSin
+	
 	push {lr,R0-R3}
-	bl Calcul
+	bl CalculSin
 	pop {lr,R0-R3}
-	ldr R0,=module
+	
+	ldr R0,=reel
+	ldr R1,=imaginaire
 	ldr R0,[R0]
+	ldr R1,[R1]
+	mul R0,R0
+	mul R1,R1 
+	add R0,R1
 	pop {lr,R4-R11}
 	bx lr
 	endp;
 
-Calcul proc
+CalculSin proc
 	mov R3,#0
-	;R0 correspond à l'adresse du signal, R1 à la valeur de k, R2 à l'adresse de TabCos ou Tabsin, et R3 l'itérateur
-boucle	push {lr,R0-R3}
-	bl  Operation ;on fait l'operation de multiplication et de stockage dans une sub-routine
+	;R0 correspond à l'adresse du signal, R1 à la valeur de k, R2 à l'adresse de Tabsin, et R3 l'itérateur
+boucle1	push {lr,R0-R3}
+	bl  OperationSin ;on fait l'operation de multiplication et de stockage dans une sub-routine
 	pop {lr,R0-R3}
+	
 	add R3,#1
 	cmp R1,R3
-	bne boucle
-	ldr R0,=module
-	ldr R0,[R0]
+	bne boucle1
+	
+	bx lr
+	endp
+		
+CalculCos proc
+	mov R3,#0
+	;R0 correspond à l'adresse du signal, R1 à la valeur de k, R2 à l'adresse de TabCos, et R3 l'itérateur
+boucle2	push {lr,R0-R4}
+	bl  OperationCos ;on fait l'operation de multiplication et de stockage dans une sub-routine
+	pop {lr,R0-R3}
+	
+	add R3,#1
+	cmp R1,R3
+	bne boucle2
+	
 	bx lr
 	endp
 
-Operation proc
+OperationSin proc
+	mul R3, R1
+	AND R3, #63
+	ldrsh R0,[R0,R3, lsl #1] ;Valeur du signal 
+	ldrsh R2,[R2,R3,lsl #1] ;valeur du sin
+	mul R0,R2
+	ldr R1,=imaginaire
+	ldr R2,[R1]
+	add R2,R0
+	str R2,[R1]
+	bx lr
+	endp
+		
+OperationCos proc
+	mul R3, R1
+	AND R3, #63
 	ldrsh R0,[R0,R3, lsl #1] ;Valeur du signal 
 	ldrsh R2,[R2,R3,lsl #1] ;valeur du cos
 	mul R0,R2
-	ldr R3,=module
-	ldr R1,[R3]
-	add R1,R0
-	str R1,[R3]
+	ldr R1,=reel
+	ldr R2,[R1]
+	add R2,R0
+	str R2,[R1]
 	bx lr
 	endp
 		

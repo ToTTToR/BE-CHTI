@@ -3,8 +3,6 @@
 
 
 int DFT_ModuleAuCarre(short int * Signal64ech,char k) ;
-extern short int * TabCos;
-extern short int * TabSin;
 extern short int LeSignal;
 
 int main(void)
@@ -16,7 +14,7 @@ int main(void)
 
 // Après exécution : le coeur CPU est clocké à 72MHz ainsi que tous les timers
 //LeSignal=LeSignal;
-DFT_ModuleAuCarre(&LeSignal,64);
+DFT_ModuleAuCarre(&LeSignal,40);
 
 	
 	
