@@ -1,18 +1,17 @@
 	PRESERVE8
 	THUMB   
 	
-	import LeSignal
+	
 
 ; ====================== zone de réservation de données,  ======================================
 ;Section RAM (read only) :
 	area    mesdata,data,readonly
-
-
+	import LeSignal
 ;Section RAM (read write):
 	area    maram,data,readwrite
 Iterateur dcd 0		
-Reel dcd 0
-	
+module dcd 0
+	export DFT_ModuleAuCarre
 ; ===============================================================================================
 	
 
@@ -22,19 +21,44 @@ Reel dcd 0
 	area    moncode,code,readonly
 ; écrire le code ici		
 	
-	DFT_ModuleAuCarre proc
+DFT_ModuleAuCarre proc ;R0 vaut l'adresse de notre signal, R1 la valeur de k 
 	push {lr,R4-R11}
-	;R0 correspond au tableau du signal, R1 correspond à k et R2 au tableau de soit cos ou sin
-boucle	ldrsh R0,[R0,R3,lsl #1] ;Valeur du signal 
-	ldrsh R1,[R1,R3,lsl #1] ;Valeur de cos/sin
-	mul R0,R1
-	ldr R3,=Iterateur
-	ldr R3,[R3]
-	cmp R3,R2 
-	bne boucle
-	
-fin 
+	ldr R2,=TabCos
+	push {lr,R0-R3}
+	bl Calcul
+	pop {lr,R0-R3}
+	ldr R2,=TabSin
+	push {lr,R0-R3}
+	bl Calcul
+	pop {lr,R0-R3}
+	ldr R0,=module
+	ldr R0,[R0]
 	pop {lr,R4-R11}
+	bx lr
+	endp;
+
+Calcul proc
+	mov R3,#0
+	;R0 correspond à l'adresse du signal, R1 à la valeur de k, R2 à l'adresse de TabCos ou Tabsin, et R3 l'itérateur
+boucle	push {lr,R0-R3}
+	bl  Operation ;on fait l'operation de multiplication et de stockage dans une sub-routine
+	pop {lr,R0-R3}
+	add R3,#1
+	cmp R1,R3
+	bne boucle
+	ldr R0,=module
+	ldr R0,[R0]
+	bx lr
+	endp
+
+Operation proc
+	ldrsh R0,[R0,R3, lsl #1] ;Valeur du signal 
+	ldrsh R2,[R2,R3,lsl #1] ;valeur du cos
+	mul R0,R2
+	ldr R3,=module
+	ldr R1,[R3]
+	add R1,R0
+	str R1,[R3]
 	bx lr
 	endp
 		
@@ -44,7 +68,10 @@ fin
 
 ;Section ROM code (read only) :		
 	AREA Trigo, DATA, READONLY
+	export TabCos
+	export TabSin
 ; codage fractionnaire 1.15
+	
 
 TabCos
 	DCW	32767	;  0 0x7fff  0.99997

@@ -1,8 +1,11 @@
 
-
 #include "DriverJeuLaser.h"
 
-int DFT_ModuleAuCarre( short int * Signal64ech,short int * tab,char k) ;
+
+int DFT_ModuleAuCarre(short int * Signal64ech,char k) ;
+extern short int * TabCos;
+extern short int * TabSin;
+extern short int LeSignal;
 
 int main(void)
 {
@@ -12,8 +15,8 @@ int main(void)
 // ===========================================================================
 
 // Après exécution : le coeur CPU est clocké à 72MHz ainsi que tous les timers
-CLOCK_Configure();
-
+//LeSignal=LeSignal;
+DFT_ModuleAuCarre(&LeSignal,64);
 
 	
 	

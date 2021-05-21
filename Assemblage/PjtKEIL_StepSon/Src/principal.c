@@ -4,10 +4,10 @@
 
 void CallbackSon(void);
 
-
 void StartSon(){
 	Iterateur = 0;
 }
+
 
 int main(void)
 {
@@ -19,7 +19,7 @@ int main(void)
 // Après exécution : le coeur CPU est clocké à 72MHz ainsi que tous les timers
 CLOCK_Configure();
 Active_IT_Debordement_Timer( TIM4, 2, CallbackSon );
-Timer_1234_Init_ff( TIM4, 72*91);
+Timer_1234_Init_ff( TIM4, 72*PeriodeSonMicroSec);
 PWM_Init_ff( TIM3, 3, 720);
 GPIO_Configure(GPIOB, 0, OUTPUT, ALT_PPULL);
 

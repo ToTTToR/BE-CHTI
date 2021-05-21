@@ -134,7 +134,8 @@ ARM Macro Assembler    Page 2
 ARM Macro Assembler    Page 3 
 
 
-   46 0000002E 4B05            ldr              R3,=Iterateur
+   46 0000002E 4B05            ldr              R3,=Iterateur ;on incrémente l'
+                                                            itérateur de 1
    47 00000030 6819            ldr              R1,[R3]
    48 00000032 F101 0101       add              R1,#1
    49 00000036 6019            str              R1,[R3]

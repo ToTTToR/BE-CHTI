@@ -398,6 +398,16 @@
               <FileType>2</FileType>
               <FilePath>.\Src\startup-rvds.s</FilePath>
             </File>
+            <File>
+              <FileName>DFT.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\DFT.s</FilePath>
+            </File>
+            <File>
+              <FileName>Signal.asm</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\Signal.asm</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -806,6 +816,16 @@
               <FileName>startup-rvds.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Src\startup-rvds.s</FilePath>
+            </File>
+            <File>
+              <FileName>DFT.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\DFT.s</FilePath>
+            </File>
+            <File>
+              <FileName>Signal.asm</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\Signal.asm</FilePath>
             </File>
           </Files>
         </Group>
@@ -1284,6 +1304,16 @@
               <FileName>startup-rvds.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Src\startup-rvds.s</FilePath>
+            </File>
+            <File>
+              <FileName>DFT.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\DFT.s</FilePath>
+            </File>
+            <File>
+              <FileName>Signal.asm</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\Signal.asm</FilePath>
             </File>
           </Files>
         </Group>

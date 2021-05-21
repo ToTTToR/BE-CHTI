@@ -6,6 +6,7 @@
 
 		 export LongueurSon 
 		 export Son
+		 export PeriodeSonMicroSec
 		 
 LongueurSon	 DCD 5512 
 PeriodeSonMicroSec	 DCD 91 
