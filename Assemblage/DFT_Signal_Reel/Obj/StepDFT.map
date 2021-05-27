@@ -6,7 +6,6 @@ Section Cross References
 
     principal.o(i.main) refers to dft.o(moncode) for DFT_ModuleAuCarre
     principal.o(i.main) refers to signal.o(Signal) for LeSignal
-    principal.o(i.main) refers to principal.o(.bss) for tabRes
     startup-rvds.o(RESET) refers to startup-rvds.o(STACK) for __initial_sp
     startup-rvds.o(RESET) refers to startup-rvds.o(.text) for Reset_Handler
     startup-rvds.o(.text) refers to entry.o(.ARM.Collect$$$$00000000) for __main
@@ -14,6 +13,7 @@ Section Cross References
     dft.o(maram) refers (Special) to signal.o(Signal) for LeSignal
     dft.o(moncode) refers (Special) to signal.o(Signal) for LeSignal
     dft.o(moncode) refers to dft.o(Trigo) for TabCos
+    dft.o(moncode) refers to dft.o(maram) for reel
     dft.o(Trigo) refers (Special) to signal.o(Signal) for LeSignal
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
@@ -41,9 +41,8 @@ Removing Unused input sections from the image.
     Removing principal.o(.rrx_text), (6 bytes).
     Removing startup-rvds.o(HEAP), (512 bytes).
     Removing dft.o(mesdata), (0 bytes).
-    Removing dft.o(maram), (16 bytes).
 
-6 unused section(s) (total 542 bytes) removed from the image.
+5 unused section(s) (total 526 bytes) removed from the image.
 
 ==============================================================================
 
@@ -53,18 +52,18 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     Src\DFT.s                                0x00000000   Number         0  dft.o ABSOLUTE
     Src\Signal.asm                           0x00000000   Number         0  signal.o ABSOLUTE
@@ -91,12 +90,15 @@ Image Symbol Table
     i.__scatterload_null                     0x0800017e   Section        2  handlers.o(i.__scatterload_null)
     i.__scatterload_zeroinit                 0x08000180   Section       14  handlers.o(i.__scatterload_zeroinit)
     i.main                                   0x08000190   Section        0  principal.o(i.main)
-    moncode                                  0x080001b4   Section      104  dft.o(moncode)
-    CalculPartie                             0x080001db   Thumb Code    58  dft.o(moncode)
-    Signal                                   0x0800022c   Section      128  signal.o(Signal)
-    Trigo                                    0x080002ac   Section      256  dft.o(Trigo)
-    .bss                                     0x20000000   Section      256  principal.o(.bss)
-    STACK                                    0x20000100   Section     1024  startup-rvds.o(STACK)
+    moncode                                  0x080001b0   Section      152  dft.o(moncode)
+    CalculPartie                             0x080001f7   Thumb Code    60  dft.o(moncode)
+    Signal                                   0x08000268   Section      128  signal.o(Signal)
+    Trigo                                    0x080002e8   Section      256  dft.o(Trigo)
+    maram                                    0x20000000   Section       16  dft.o(maram)
+    res                                      0x20000004   Data           4  dft.o(maram)
+    reel                                     0x20000008   Data           4  dft.o(maram)
+    imaginaire                               0x2000000c   Data           4  dft.o(maram)
+    STACK                                    0x20000010   Section     1024  startup-rvds.o(STACK)
 
     Global Symbols
 
@@ -181,14 +183,13 @@ Image Symbol Table
     __scatterload_null                       0x0800017f   Thumb Code     2  handlers.o(i.__scatterload_null)
     __scatterload_zeroinit                   0x08000181   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
     main                                     0x08000191   Thumb Code    28  principal.o(i.main)
-    DFT_ModuleAuCarre                        0x080001b5   Thumb Code    38  dft.o(moncode)
-    Region$$Table$$Base                      0x0800021c   Number         0  anon$$obj.o(Region$$Table)
-    LeSignal                                 0x0800022c   Data           0  signal.o(Signal)
-    Region$$Table$$Limit                     0x0800022c   Number         0  anon$$obj.o(Region$$Table)
-    TabCos                                   0x080002ac   Data           0  dft.o(Trigo)
-    TabSin                                   0x0800032c   Data           0  dft.o(Trigo)
-    tabRes                                   0x20000000   Data         256  principal.o(.bss)
-    __initial_sp                             0x20000500   Data           0  startup-rvds.o(STACK)
+    DFT_ModuleAuCarre                        0x080001b1   Thumb Code    70  dft.o(moncode)
+    Region$$Table$$Base                      0x08000248   Number         0  anon$$obj.o(Region$$Table)
+    LeSignal                                 0x08000268   Data           0  signal.o(Signal)
+    Region$$Table$$Limit                     0x08000268   Number         0  anon$$obj.o(Region$$Table)
+    TabCos                                   0x080002e8   Data           0  dft.o(Trigo)
+    TabSin                                   0x08000368   Data           0  dft.o(Trigo)
+    __initial_sp                             0x20000410   Data           0  startup-rvds.o(STACK)
 
 
 
@@ -198,41 +199,41 @@ Memory Map of the image
 
   Image Entry point : 0x080000ed
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000003ac, Max: 0x00020000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000003f8, Max: 0x00020000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000003ac, Max: 0x00020000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000003e8, Max: 0x00020000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x08000000   0x08000000   0x000000ec   Data   RO           70    RESET               startup-rvds.o
-    0x080000ec   0x080000ec   0x00000000   Code   RO           83  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x080000ec   0x080000ec   0x00000004   Code   RO           86    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x080000f0   0x080000f0   0x00000004   Code   RO           89    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x080000f4   0x080000f4   0x00000000   Code   RO           91    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x080000f4   0x080000f4   0x00000000   Code   RO           93    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x080000f4   0x080000f4   0x00000008   Code   RO           94    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x080000fc   0x080000fc   0x00000000   Code   RO           96    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x080000fc   0x080000fc   0x00000000   Code   RO           98    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x080000fc   0x080000fc   0x00000004   Code   RO           87    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
-    0x08000100   0x08000100   0x0000004c   Code   RO           71    .text               startup-rvds.o
-    0x0800014c   0x0800014c   0x00000024   Code   RO          100    .text               mc_w.l(init.o)
-    0x08000170   0x08000170   0x0000000e   Code   RO          104    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x0800017e   0x0800017e   0x00000002   Code   RO          105    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08000180   0x08000180   0x0000000e   Code   RO          106    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08000000   0x08000000   0x000000ec   Data   RO           67    RESET               startup-rvds.o
+    0x080000ec   0x080000ec   0x00000000   Code   RO           80  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x080000ec   0x080000ec   0x00000004   Code   RO           83    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x080000f0   0x080000f0   0x00000004   Code   RO           86    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x080000f4   0x080000f4   0x00000000   Code   RO           88    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x080000f4   0x080000f4   0x00000000   Code   RO           90    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x080000f4   0x080000f4   0x00000008   Code   RO           91    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x080000fc   0x080000fc   0x00000000   Code   RO           93    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x080000fc   0x080000fc   0x00000000   Code   RO           95    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x080000fc   0x080000fc   0x00000004   Code   RO           84    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x08000100   0x08000100   0x0000004c   Code   RO           68    .text               startup-rvds.o
+    0x0800014c   0x0800014c   0x00000024   Code   RO           97    .text               mc_w.l(init.o)
+    0x08000170   0x08000170   0x0000000e   Code   RO          101    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x0800017e   0x0800017e   0x00000002   Code   RO          102    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08000180   0x08000180   0x0000000e   Code   RO          103    i.__scatterload_zeroinit  mc_w.l(handlers.o)
     0x0800018e   0x0800018e   0x00000002   PAD
-    0x08000190   0x08000190   0x00000024   Code   RO            4    i.main              principal.o
-    0x080001b4   0x080001b4   0x00000068   Code   RO           77    moncode             dft.o
-    0x0800021c   0x0800021c   0x00000010   Data   RO          102    Region$$Table       anon$$obj.o
-    0x0800022c   0x0800022c   0x00000080   Data   RO           82    Signal              signal.o
-    0x080002ac   0x080002ac   0x00000100   Data   RO           78    Trigo               dft.o
+    0x08000190   0x08000190   0x00000020   Code   RO            4    i.main              principal.o
+    0x080001b0   0x080001b0   0x00000098   Code   RO           74    moncode             dft.o
+    0x08000248   0x08000248   0x00000020   Data   RO           99    Region$$Table       anon$$obj.o
+    0x08000268   0x08000268   0x00000080   Data   RO           79    Signal              signal.o
+    0x080002e8   0x080002e8   0x00000100   Data   RO           75    Trigo               dft.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080003ac, Size: 0x00000500, Max: 0x00005000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080003e8, Size: 0x00000410, Max: 0x00005000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000        -       0x00000100   Zero   RW            5    .bss                principal.o
-    0x20000100        -       0x00000400   Zero   RW           68    STACK               startup-rvds.o
+    0x20000000   0x080003e8   0x00000010   Data   RW           73    maram               dft.o
+    0x20000010        -       0x00000400   Zero   RW           65    STACK               startup-rvds.o
 
 
 ==============================================================================
@@ -242,14 +243,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       104          8        256          0          0        384   dft.o
-        36          8          0          0        256       2567   principal.o
+       152         22        256         16          0        404   dft.o
+        32          4          0          0          0       1999   principal.o
          0          0        128          0          0          0   signal.o
         76         20        236          0       1024        808   startup-rvds.o
 
     ----------------------------------------------------------------------
-       216         36        636          0       1280       3759   Object Totals
-         0          0         16          0          0          0   (incl. Generated)
+       260         46        652         16       1024       3211   Object Totals
+         0          0         32          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
@@ -287,15 +288,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       304         52        636          0       1280       3927   Grand Totals
-       304         52        636          0       1280       3927   ELF Image Totals
-       304         52        636          0          0          0   ROM Totals
+       348         62        652         16       1024       3379   Grand Totals
+       348         62        652         16       1024       3379   ELF Image Totals
+       348         62        652         16          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                  940 (   0.92kB)
-    Total RW  Size (RW Data + ZI Data)              1280 (   1.25kB)
-    Total ROM Size (Code + RO Data + RW Data)        940 (   0.92kB)
+    Total RO  Size (Code + RO Data)                 1000 (   0.98kB)
+    Total RW  Size (RW Data + ZI Data)              1040 (   1.02kB)
+    Total ROM Size (Code + RO Data + RW Data)       1016 (   0.99kB)
 
 ==============================================================================
 
