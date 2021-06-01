@@ -41,9 +41,9 @@ Removing Unused input sections from the image.
     Removing principal.o(.rrx_text), (6 bytes).
     Removing startup-rvds.o(HEAP), (512 bytes).
     Removing dft.o(mesdata), (0 bytes).
-    Removing dft.o(maram), (16 bytes).
+    Removing dft.o(maram), (0 bytes).
 
-6 unused section(s) (total 542 bytes) removed from the image.
+6 unused section(s) (total 526 bytes) removed from the image.
 
 ==============================================================================
 
@@ -92,7 +92,7 @@ Image Symbol Table
     i.__scatterload_zeroinit                 0x08000180   Section       14  handlers.o(i.__scatterload_zeroinit)
     i.main                                   0x08000190   Section        0  principal.o(i.main)
     moncode                                  0x080001b4   Section      104  dft.o(moncode)
-    CalculPartie                             0x080001db   Thumb Code    58  dft.o(moncode)
+    CalculPartie                             0x080001df   Thumb Code    54  dft.o(moncode)
     Signal                                   0x0800022c   Section      128  signal.o(Signal)
     Trigo                                    0x080002ac   Section      256  dft.o(Trigo)
     .bss                                     0x20000000   Section      256  principal.o(.bss)
@@ -181,7 +181,7 @@ Image Symbol Table
     __scatterload_null                       0x0800017f   Thumb Code     2  handlers.o(i.__scatterload_null)
     __scatterload_zeroinit                   0x08000181   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
     main                                     0x08000191   Thumb Code    28  principal.o(i.main)
-    DFT_ModuleAuCarre                        0x080001b5   Thumb Code    38  dft.o(moncode)
+    DFT_ModuleAuCarre                        0x080001b5   Thumb Code    42  dft.o(moncode)
     Region$$Table$$Base                      0x0800021c   Number         0  anon$$obj.o(Region$$Table)
     LeSignal                                 0x0800022c   Data           0  signal.o(Signal)
     Region$$Table$$Limit                     0x0800022c   Number         0  anon$$obj.o(Region$$Table)

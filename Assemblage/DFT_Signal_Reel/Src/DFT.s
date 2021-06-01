@@ -9,10 +9,6 @@
 	import LeSignal
 ;Section RAM (read write):
 	area    maram,data,readwrite
-Iterateur dcd 0		
-res dcd 0
-reel dcd 0
-imaginaire dcd 0
 
 	export DFT_ModuleAuCarre
 ; ===============================================================================================
@@ -27,60 +23,43 @@ imaginaire dcd 0
 DFT_ModuleAuCarre proc ;R0 vaut l'adresse de notre signal, R1 la valeur de k 
 	push {lr,R4-R11}
 	ldr R2,=TabCos
-	push{R0-R2}
+	push{r0}
 	bl CalculPartie ;Calcule partie réel de notre DFT
-	ldr R1,=reel
-	ldr R2,[R1]
-	add R2,R0
-	str R2,[R1] ;stockage de la partie réel
-	mov R2,#0
-	ldr R1,=res ;reinitialisation de res
-	str R2,[R1] 
-	pop{R0-R2}
+	mov  R5,R0  ;stockage de la partie réel dans R5
 	
-	ldr R2,=TabSin
-	push{R0-R2}
+	pop {r0}
+	ldr R2,=TabSin ; mise en place de l'argument sinTab
 	bl CalculPartie
-	ldr R1,=imaginaire
-	ldr R2,[R1]
-	add R2,R0
-	str R2,[R1]	
+	mov r6,r0 ;stockage de la partie réel dans R6
 	
-	ldr R0,=reel
-	ldr R1,=imaginaire
-	ldr R0,[R0]
-	ldr R1,[R1]
-	mul R0,R0
-	mul R1,R1 
-	add R0,R1
+	mov r0,#0  ;r0 = 0
+	smlal r3,r0,r5,r5 ;r0 = 0 + reel * reel 
+	smlal r3,r0,r6,r6 ;r0 = reel*reel + imaginaire * imaginaire
 	pop {lr,R4-R11}
 	bx lr
 	endp;
 
 CalculPartie proc
-	
-	mov R3,#0
+	push {lr,R4-R11}
+	mov R7,#0 ;Resultat de la somme
+	mov R3,#0 ;iterateur
+	mov R8,#64 ;nombre d'iterations à faire/ itermax
 	;R0 correspond à l'adresse du signal, R1 à la valeur de k, R2 à l'adresse de Tabsin/Tabcos, et R3 l'itérateur
-boucle	push {lr,R0-R3}
-	ldrsh R0,[R0,R3, lsl #1] ;Valeur du signal 
-	mul R3, R1 ; p = k * n
-	AND R3, #63
-	ldrsh R2,[R2,R3,lsl #1] ;valeur du sin/cos
-	mul R0,R2
-	ldr R3,=res
-	ldr R2,[R3]
-	add R2,R0
-	str R2,[R3]
-	pop {lr,R0-R3}
+boucle	
+	ldrsh R4,[R0,R3, lsl #1] ;Valeur du signal 
+	mul R5, R3,R1 ; p = k * n
+	and R5, #63 ; p mod 64
+	ldrsh R6,[R2,R5,lsl #1] ;valeur du sin/cos
+	mul R4,R6 ;r4 = signal*cos format 2.27
+	asr R4,#12 ;décalage à droite pour diminuer valeur
+	add R7,R4 ;Stocke dans R7 la somme des opérations
 	
-	add R3,#1
-	push {R4}
-	mov R4,#63
-	cmp R4,R3
-	pop {R4}
+	add R3,#1 ; iterateur += 1
+	cmp R8,R3 ; on compare iterateur avec l'itermax	
 	bne boucle
-	ldr R0,=res
-	ldr R0,[R0]
+	mov R0,R7  ; on met la valeur de retour en R0
+	pop {lr,R4-R11}
+
 	bx lr
 	endp
 

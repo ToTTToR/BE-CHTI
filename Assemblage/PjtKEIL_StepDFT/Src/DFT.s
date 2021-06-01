@@ -9,10 +9,7 @@
 	import LeSignal
 ;Section RAM (read write):
 	area    maram,data,readwrite
-Iterateur dcd 0		
-res dcd 0
-reel dcd 0
-imaginaire dcd 0
+
 
 	export DFT_ModuleAuCarre
 ; ===============================================================================================
@@ -27,14 +24,15 @@ imaginaire dcd 0
 DFT_ModuleAuCarre proc ;R0 vaut l'adresse de notre signal, R1 la valeur de k 
 	push {lr,R4-R11}
 	ldr R2,=TabCos
+	push{r0}
 	bl CalculPartie ;Calcule partie réel de notre DFT
 	mov  R5,R0  ;stockage de la partie réel dans R5
-	
+	pop {r0}
 	ldr R2,=TabSin ; mise en place de l'argument sinTab
 	bl CalculPartie
 	mov r6,r0 ;stockage de la partie réel dans R6
 	
-	mov r0,#0		  ;r0 = 0
+	mov r0,#0  ;r0 = 0
 	smlal r3,r0,r5,r5 ;r0 = 0 + reel * reel 
 	smlal r3,r0,r6,r6 ;r0 = reel*reel + imaginaire * imaginaire
 	pop {lr,R4-R11}
@@ -52,9 +50,8 @@ boucle
 	mul R5, R3,R1 ; p = k * n
 	and R5, #63 ; p mod 64
 	ldrsh R6,[R2,R5,lsl #1] ;valeur du sin/cos
-	mov R5,#0
-	smlal R4,R5,R4,R6 ;r4 = signal*cos
-	add R7,R5 ;Somme des operations
+	mul R4,R6 ;r4 = signal*cos
+	add R7,R4 ;Stocke dans R7 la somme des opérations
 	
 	add R3,#1 ; iterateur += 1
 	cmp R8,R3 ; on compare iterateur avec l'itermax	
